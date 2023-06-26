@@ -58,7 +58,6 @@ const usersSlice = createSlice({
 });
 
 // generate reducer
-
 const usersReducer = usersSlice.reducer;
 
 export default usersReducer;
