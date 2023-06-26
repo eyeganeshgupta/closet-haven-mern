@@ -27,8 +27,9 @@ export const loginUserAction = createAsyncThunk(
         password: payload?.password,
       });
 
-      return response.date;
+      return response.data;
     } catch (error) {
+      console.log(error);
       return rejectWithValue(error?.response?.data);
     }
   }
