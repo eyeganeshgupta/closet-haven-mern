@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUserAction } from "../../../redux/slices/users/usersSlice";
 import ErrorComponent from "../../ErrorMsg/ErrorMsg";
+import LoadingComponent from "../../LoadingComp/LoadingComponent";
 
 const RegisterForm = () => {
   //dispatch
@@ -76,13 +77,13 @@ const RegisterForm = () => {
                     type="password"
                     placeholder="Enter your password"
                   />
-                  <button
-                    // disable the button if loading is true
-                    disabled={loading}
-                    className="mt-12 md:mt-16 bg-blue-800 hover:bg-blue-900 text-white font-bold font-heading py-5 px-8 rounded-md uppercase"
-                  >
-                    {loading ? "Loading..." : "Register"}
-                  </button>
+                  {loading ? (
+                    <LoadingComponent />
+                  ) : (
+                    <button className="mt-12 md:mt-16 bg-blue-800 hover:bg-blue-900 text-white font-bold font-heading py-5 px-8 rounded-md uppercase">
+                      Register
+                    </button>
+                  )}
                 </form>
               </div>
             </div>
