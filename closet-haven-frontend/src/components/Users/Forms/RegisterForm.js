@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUserAction } from "../../../redux/slices/users/usersSlice";
-import ErrorComponent from "../../ErrorMsg/ErrorMsg";
+import ErrorMsg from "../../ErrorMsg/ErrorMsg";
 import LoadingComponent from "../../LoadingComp/LoadingComponent";
 
 const RegisterForm = () => {
@@ -31,11 +31,8 @@ const RegisterForm = () => {
   //select store data
   const { user, error, loading } = useSelector((state) => state?.users);
 
-  //redirect
-  if (userAuth?.userInfo?.status) {
-    window.location.href = "/login";
-  }
-
+  // redirect
+  
   return (
     <>
       <section className="relative overflow-x-hidden">
@@ -47,10 +44,7 @@ const RegisterForm = () => {
                   Signing up with social is super quick
                 </h3>
                 {/* errr */}
-                {/* Error */}
-                {userAuth?.error?.message && (
-                  <ErrorComponent message={userAuth?.error?.message} />
-                )}
+                {error && <ErrorMsg message={error?.message} />}
                 <p className="mb-10">Please, do not hesitate</p>
                 <form onSubmit={onSubmitHandler}>
                   <input
