@@ -26,10 +26,10 @@ const RegisterForm = () => {
     e.preventDefault();
     dispatch(registerUserAction({ fullname, email, password }));
   };
-  //select store data
 
   //select store data
-  const { loading, userAuth } = {};
+  const { user, error, loading } = useSelector((state) => state?.users);
+
   //redirect
   if (userAuth?.userInfo?.status) {
     window.location.href = "/login";
