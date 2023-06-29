@@ -32,7 +32,7 @@ const RegisterForm = () => {
   const { user, error, loading } = useSelector((state) => state?.users);
 
   // redirect
-  
+
   return (
     <>
       <section className="relative overflow-x-hidden">
