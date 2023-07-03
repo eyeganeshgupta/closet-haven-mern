@@ -2,7 +2,10 @@ import mongoose from "mongoose";
 
 const dbConnect = async () => {
   try {
-    const connected = await mongoose.connect("url");
+    mongoose.set("strictQuery", false);
+
+    const connected = await mongoose.connect(process.env.MONGO_URL);
+
     console.log(`MongoDB connected ${connected.connection.host}`);
   } catch (error) {
     console.log(`Error: ${error.message}`);
@@ -11,3 +14,5 @@ const dbConnect = async () => {
 };
 
 export default dbConnect;
+
+// 9Ox5xpCbFotRXaTm
