@@ -32,3 +32,18 @@ export const registerUserCtrl = async (request, response) => {
     data: user,
   });
 };
+
+// @desc Login User
+// @route POST /api/v1/users/login
+// @access Public
+
+export const loginUserCtrl = async (request, response) => {
+  const { email, password } = request.body;
+  // Find the user in database by using email
+  const userFound = await User.findOne({
+    email,
+  });
+  if (!userFound) {
+    
+  }
+};
