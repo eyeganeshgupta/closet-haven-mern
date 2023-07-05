@@ -1,4 +1,5 @@
 import User from "../model/User.js";
+import bcrypt from "bcryptjs";
 
 // @desc Register user
 // @route POST /api/v1/users/register
@@ -15,11 +16,14 @@ export const registerUserCtrl = async (request, response) => {
     });
   }
   // hash password
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
+
   // register the user
   const user = await User.create({
     fullname,
     email,
-    password,
+    password: hashedPassword,
   });
 
   response.status(201).json({
