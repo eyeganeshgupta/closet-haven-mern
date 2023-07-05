@@ -15,6 +15,7 @@ export const registerUserCtrl = async (request, response) => {
       msg: "User already exists",
     });
   }
+  
   // hash password
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
@@ -43,7 +44,14 @@ export const loginUserCtrl = async (request, response) => {
   const userFound = await User.findOne({
     email,
   });
+
   if (!userFound) {
-    
+    response.json({
+      msg: "Invalid Login Details",
+    });
   }
+
+  response.json({
+    msg: "Login Success",
+  });
 };
