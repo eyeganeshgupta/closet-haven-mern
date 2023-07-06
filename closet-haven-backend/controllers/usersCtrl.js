@@ -45,13 +45,15 @@ export const loginUserCtrl = async (request, response) => {
     email,
   });
 
-  if (!userFound) {
-    return response.json({
-      msg: "Invalid Login Details",
+  if (userFound && (await bcrypt.compare(password, userFound?.password))) {
+    response.json({
+      status: "success",
+      message: "User LoggedIn Successfully",
+      userFound,
+    });
+  } else {
+    response.json({
+      msg: "Invalid Login",
     });
   }
-
-  response.json({
-    msg: "Login Success",
-  });
 };
