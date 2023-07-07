@@ -1,5 +1,6 @@
 import User from "../model/User.js";
 import bcrypt from "bcryptjs";
+import asyncHandler from "express-async-handler";
 
 // @desc Register user
 // @route POST /api/v1/users/register
@@ -38,7 +39,7 @@ export const registerUserCtrl = async (request, response) => {
 // @route POST /api/v1/users/login
 // @access Public
 
-export const loginUserCtrl = async (request, response) => {
+export const loginUserCtrl = asyncHandler(async (request, response) => {
   const { email, password } = request.body;
   // Find the user in database by using email
   const userFound = await User.findOne({
@@ -52,8 +53,6 @@ export const loginUserCtrl = async (request, response) => {
       userFound,
     });
   } else {
-    response.json({
-      msg: "Invalid Login",
-    });
+    throw new Error("Invalid Login Credentials");
   }
-};
+});
