@@ -14,5 +14,3 @@ const dbConnect = async () => {
 };
 
 export default dbConnect;
-
-// 9Ox5xpCbFotRXaTm

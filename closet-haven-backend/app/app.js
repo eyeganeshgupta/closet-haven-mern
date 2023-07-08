@@ -15,7 +15,7 @@ const app = express();
 app.use(express.json());
 
 // routes
-app.use('/', userRoutes);
+app.use("/", userRoutes);
 
 // error middleware
 app.use(notFound);
