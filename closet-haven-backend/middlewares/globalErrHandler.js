@@ -11,3 +11,9 @@ export const globalErrHandler = (error, request, response, next) => {
     message,
   });
 };
+
+// 404 Handler
+export const notFound = (request, response, next) => {
+  const error = new Error(`Route ${request.originalUrl} not found`);
+  next(error);
+};
