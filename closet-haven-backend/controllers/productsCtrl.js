@@ -1,0 +1,48 @@
+import Product from "../model/Product.js";
+import asyncHandler from "express-async-handler";
+
+// @desc Create new product
+// @route POST /api/v1/products
+// @access Private/Admin
+
+export const createProductCtrl = asyncHandler(async (request, response) => {
+  const {
+    name,
+    description,
+    category,
+    sizes,
+    colors,
+    user,
+    price,
+    totalQty,
+    brand,
+  } = request.body;
+
+  // Product Exists
+  const productExists = await Product.findOne({ name });
+  if (productExists) {
+    throw new Error("Product Already Exists");
+  }
+
+  // create the product
+  const product = await Product.create({
+    name,
+    description,
+    category,
+    sizes,
+    colors,
+    user: request.userAuthId,
+    price,
+    totalQty,
+    brand,
+  });
+
+  // push the product into category
+
+  // send response
+  response.json({
+    status: "success",
+    message: "Product created successfully",
+    product,
+  });
+});
