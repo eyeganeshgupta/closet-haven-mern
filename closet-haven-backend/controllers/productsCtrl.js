@@ -89,7 +89,7 @@ export const getProductsCtrl = asyncHandler(async (request, response) => {
       sizes: { $regex: request.query.size, $options: "i" },
     });
   }
-  
+
   /*
   if (request.query.size) {
     productQuery = productQuery.find({
@@ -97,6 +97,19 @@ export const getProductsCtrl = asyncHandler(async (request, response) => {
     });
   }
   */
+
+  // filter by price range
+  if (request.query.price) {
+    const priceRangeArr = request.query.price.split("-");
+    // gte -> greater than or equal to
+    // lte -> less than or equal to
+    productQuery = productQuery.find({
+      price: {
+        $gte: priceRangeArr[0],
+        $lte: priceRangeArr[1],
+      },
+    });
+  }
 
   // await the query
   const products = await productQuery;
