@@ -111,6 +111,24 @@ export const getProductsCtrl = asyncHandler(async (request, response) => {
     });
   }
 
+  /* --- Pagination --- */
+  // Pagination simply means that returning some amount of record per request or per page
+
+  // page
+  const page = parseInt(request.query.page) ? parseInt(request.query.page) : 1;
+  // limit
+  const limit = parseInt(request.query.limit)
+    ? parseInt(request.query.limit)
+    : 10;
+  // startIndex
+  const startIndex = (page - 1) * limit;
+  // endIndex
+  const endIndex = page * limit;
+  // totalProduct or totalRecord
+  const total = await Product.countDocuments();
+
+  productQuery = productQuery.skip(startIndex).limit(limit);
+
   // await the query
   const products = await productQuery;
 
