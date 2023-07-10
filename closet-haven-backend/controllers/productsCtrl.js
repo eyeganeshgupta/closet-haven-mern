@@ -55,12 +55,48 @@ export const getProductsCtrl = asyncHandler(async (request, response) => {
   // query
   let productQuery = Product.find();
 
-  // search by name
+  // filter by name
   if (request.query.name) {
     productQuery = productQuery.find({
       name: { $regex: request.query.name, $options: "i" },
     });
   }
+
+  // filter by brand
+  if (request.query.brand) {
+    productQuery = productQuery.find({
+      brand: { $regex: request.query.brand, $options: "i" },
+    });
+  }
+
+  // filter by category
+  if (request.query.category) {
+    productQuery = productQuery.find({
+      category: { $regex: request.query.category, $options: "i" },
+    });
+  }
+
+  // filter by color
+  if (request.query.color) {
+    productQuery = productQuery.find({
+      colors: { $regex: request.query.color, $options: "i" },
+    });
+  }
+
+  // filter by size
+  if (request.query.size) {
+    productQuery = productQuery.find({
+      sizes: { $regex: request.query.size, $options: "i" },
+    });
+  }
+  
+  /*
+  if (request.query.size) {
+    productQuery = productQuery.find({
+      sizes: request.query.size.toUpperCase(),
+    });
+  }
+  */
 
   // await the query
   const products = await productQuery;
