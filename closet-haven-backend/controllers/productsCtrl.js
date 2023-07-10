@@ -46,3 +46,15 @@ export const createProductCtrl = asyncHandler(async (request, response) => {
     product,
   });
 });
+
+// @desc Get all products
+// @route GET /api/v1/products
+// @access Public
+
+export const getProductsCtrl = asyncHandler(async (request, response) => {
+  const products = await Product.find();
+  response.json({
+    status: "success",
+    products,
+  });
+});
