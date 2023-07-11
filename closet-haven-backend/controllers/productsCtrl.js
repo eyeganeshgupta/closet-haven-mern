@@ -1,9 +1,9 @@
 import Product from "../model/Product.js";
 import asyncHandler from "express-async-handler";
 
-// @desc Create new product
-// @route POST /api/v1/products
-// @access Private/Admin
+// @desc        Create new product
+// @route       POST /api/v1/products
+// @access      Private/Admin
 
 export const createProductCtrl = asyncHandler(async (request, response) => {
   const {
@@ -47,9 +47,9 @@ export const createProductCtrl = asyncHandler(async (request, response) => {
   });
 });
 
-// @desc Get all products
-// @route GET /api/v1/products
-// @access Public
+// @desc        Get all products
+// @route       GET /api/v1/products
+// @access      Public
 
 export const getProductsCtrl = asyncHandler(async (request, response) => {
   // query
@@ -131,7 +131,7 @@ export const getProductsCtrl = asyncHandler(async (request, response) => {
 
   /* --- Pagination Results */
   const pagination = {};
-  
+
   if (endIndex < total) {
     pagination.next = {
       page: page + 1,
@@ -156,5 +156,23 @@ export const getProductsCtrl = asyncHandler(async (request, response) => {
     pagination,
     message: "Products fetched successfully",
     products,
+  });
+});
+
+// @desc        Get single product
+// @route       GET /api/products/:id
+// @access      Public
+
+export const getProductCtrl = asyncHandler(async (request, response) => {
+  const product = await Product.findById(request.params.id);
+
+  if (!product) {
+    throw new Error("Product not found!");
+  }
+
+  response.json({
+    status: "success",
+    message: "Product fetched successfully",
+    product,
   });
 });
