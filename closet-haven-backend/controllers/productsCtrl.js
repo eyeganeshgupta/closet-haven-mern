@@ -1,3 +1,4 @@
+import { response } from "express";
 import Product from "../model/Product.js";
 import asyncHandler from "express-async-handler";
 
@@ -173,6 +174,49 @@ export const getProductCtrl = asyncHandler(async (request, response) => {
   response.json({
     status: "success",
     message: "Product fetched successfully",
+    product,
+  });
+});
+
+// @desc        update product
+// @route       PUT /api/products/:id/update
+// @access      Private/Admin
+
+export const updateProductCtrl = asyncHandler(async (request, response) => {
+  const {
+    name,
+    description,
+    category,
+    sizes,
+    colors,
+    user,
+    price,
+    totalQty,
+    brand,
+  } = request.body;
+
+  // update
+  const product = await Product.findByIdAndUpdate(
+    request.params.id,
+    {
+      name,
+      description,
+      category,
+      sizes,
+      colors,
+      user,
+      price,
+      totalQty,
+      brand,
+    },
+    {
+      new: true,
+    }
+  );
+
+  response.json({
+    status: "success",
+    message: "Product updated successfully",
     product,
   });
 });
