@@ -129,11 +129,32 @@ export const getProductsCtrl = asyncHandler(async (request, response) => {
 
   productQuery = productQuery.skip(startIndex).limit(limit);
 
+  /* --- Pagination Results */
+  const pagination = {};
+  
+  if (endIndex < total) {
+    pagination.next = {
+      page: page + 1,
+      limit,
+    };
+  }
+
+  if (startIndex > 0) {
+    pagination.previous = {
+      page: page - 1,
+      limit,
+    };
+  }
+
   // await the query
   const products = await productQuery;
 
   response.json({
     status: "success",
+    total,
+    results: products.length,
+    pagination,
+    message: "Products fetched successfully",
     products,
   });
 });
