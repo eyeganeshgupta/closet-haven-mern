@@ -5,7 +5,6 @@ import asyncHandler from "express-async-handler";
 // @desc        Create new product
 // @route       POST /api/v1/products
 // @access      Private/Admin
-
 export const createProductCtrl = asyncHandler(async (request, response) => {
   const {
     name,
@@ -51,7 +50,6 @@ export const createProductCtrl = asyncHandler(async (request, response) => {
 // @desc        Get all products
 // @route       GET /api/v1/products
 // @access      Public
-
 export const getProductsCtrl = asyncHandler(async (request, response) => {
   // query
   let productQuery = Product.find();
@@ -163,7 +161,6 @@ export const getProductsCtrl = asyncHandler(async (request, response) => {
 // @desc        Get single product
 // @route       GET /api/products/:id
 // @access      Public
-
 export const getProductCtrl = asyncHandler(async (request, response) => {
   const product = await Product.findById(request.params.id);
 
@@ -181,7 +178,6 @@ export const getProductCtrl = asyncHandler(async (request, response) => {
 // @desc        update product
 // @route       PUT /api/products/:id/update
 // @access      Private/Admin
-
 export const updateProductCtrl = asyncHandler(async (request, response) => {
   const {
     name,
@@ -218,5 +214,16 @@ export const updateProductCtrl = asyncHandler(async (request, response) => {
     status: "success",
     message: "Product updated successfully",
     product,
+  });
+});
+
+// @desc        delete product
+// @route       DELETE /api/products/:id/delete
+// @access      Private/Admin
+export const deleteProductCtrl = asyncHandler(async (request, response) => {
+  await Product.findByIdAndDelete(request.params.id);
+  response.json({
+    status: "success",
+    message: "Product deleted sucessfully",
   });
 });
