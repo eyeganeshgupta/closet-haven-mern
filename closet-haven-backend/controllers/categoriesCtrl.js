@@ -1,4 +1,3 @@
-import { response } from "express";
 import Category from "../model/Category.js";
 import asyncHandler from "express-async-handler";
 
