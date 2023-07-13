@@ -15,7 +15,7 @@ export const createColorCtrl = asyncHandler(async (request, response) => {
 
   // create color
   const color = await Color.create({
-    name,
+    name: name.charAt(0).toUpperCase() + name.substring(1),
     user: request.userAuthId,
   });
 

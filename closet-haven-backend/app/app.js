@@ -6,6 +6,7 @@ import { globalErrHandler, notFound } from "../middlewares/globalErrHandler.js";
 import productsRouter from "../routes/productsRoute.js";
 import categoriesRouter from "../routes/categoriesRoute.js";
 import brandsRouter from "../routes/brandsRoute.js";
+import colorsRouter from "../routes/colorRoute.js";
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.use("/api/v1/users/", userRoutes);
 app.use("/api/v1/products/", productsRouter);
 app.use("/api/v1/categories/", categoriesRouter);
 app.use("/api/v1/brands/", brandsRouter);
+app.use("/api/v1/colors/", colorsRouter);
 
 // error middleware
 app.use(notFound);
