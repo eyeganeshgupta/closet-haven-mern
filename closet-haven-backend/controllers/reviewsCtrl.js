@@ -28,4 +28,10 @@ export const createReviewCtrl = asyncHandler(async (request, response) => {
   // 4. Push review into product Found
   productFound.reviews.push(review?._id);
   // resave
+  await productFound.save();
+
+  response.status(201).json({
+    success: true,
+    message: "Review created successfully",
+  });
 });
