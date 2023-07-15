@@ -15,8 +15,6 @@ export const createReviewCtrl = asyncHandler(async (request, response) => {
     throw new Error("Product not found!");
   }
 
-  console.log(productFound);
-
   // 2. Checking if user already reviewed this product
   const hasReviewed = productFound?.reviews?.find((review) => {
     // console.log(review?.user?.toString());

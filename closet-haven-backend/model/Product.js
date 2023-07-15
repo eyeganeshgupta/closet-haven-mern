@@ -79,7 +79,7 @@ ProductSchema.virtual("qtyLeft").get(function () {
   return product.totalQty - product.totalSold;
 });
 
-//Total rating
+//Total number of rating
 ProductSchema.virtual("totalReviews").get(function () {
   const product = this;
   return product?.reviews?.length;
@@ -92,10 +92,10 @@ ProductSchema.virtual("averageRating").get(function () {
   product?.reviews?.forEach((review) => {
     ratingsTotal += review?.rating;
   });
-  //calc average rating
-  const averageRating = Number(ratingsTotal / product?.reviews?.length).toFixed(
-    1
-  );
+
+  // calculate average rating
+  const averageRating = Number(ratingsTotal / product?.reviews?.length).toFixed(1);
+
   return averageRating;
 });
 
