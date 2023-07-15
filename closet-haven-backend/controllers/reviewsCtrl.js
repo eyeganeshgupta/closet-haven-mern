@@ -10,12 +10,23 @@ export const createReviewCtrl = asyncHandler(async (request, response) => {
 
   // 1. Finding the product that we want to review
   const { productID } = request.params;
-  const productFound = await Product.findById(productID);
+  const productFound = await Product.findById(productID).populate("reviews");
   if (!productFound) {
     throw new Error("Product not found!");
   }
 
+  console.log(productFound);
+
   // 2. Checking if user already reviewed this product
+  const hasReviewed = productFound?.reviews?.find((review) => {
+    // console.log(review?.user?.toString());
+    // console.log(request?.userAuthId?.toString());
+    return review?.user?.toString() === request?.userAuthId?.toString();
+  });
+
+  if (hasReviewed) {
+    throw new Error("You have already reviewed this product");
+  }
 
   // 3. Create Review
   const review = await Review.create({
@@ -30,6 +41,7 @@ export const createReviewCtrl = asyncHandler(async (request, response) => {
   // resave
   await productFound.save();
 
+  // 5. sending response
   response.status(201).json({
     success: true,
     message: "Review created successfully",
