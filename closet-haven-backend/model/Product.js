@@ -94,7 +94,9 @@ ProductSchema.virtual("averageRating").get(function () {
   });
 
   // calculate average rating
-  const averageRating = Number(ratingsTotal / product?.reviews?.length).toFixed(1);
+  const averageRating = Number(ratingsTotal / product?.reviews?.length).toFixed(
+    1
+  );
 
   return averageRating;
 });
