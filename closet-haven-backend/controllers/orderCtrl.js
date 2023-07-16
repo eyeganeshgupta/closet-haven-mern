@@ -32,7 +32,6 @@ export const createOrderCtrl = asyncHandler(async (request, response) => {
 
   // 6. Update the product quantity
   const products = await Product.find({ _id: { $in: orderItems } });
-
   orderItems?.map(async (order) => {
     const product = products?.find((product) => {
       return product?._id?.toString() === order?._id?.toString();
