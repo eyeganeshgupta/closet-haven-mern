@@ -57,6 +57,7 @@ const UserSchema = new Schema(
       },
       country: {
         type: String,
+        default: "India",
       },
       contactNo: {
         type: String,

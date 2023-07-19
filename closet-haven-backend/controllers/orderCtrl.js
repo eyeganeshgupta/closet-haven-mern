@@ -13,12 +13,17 @@ export const createOrderCtrl = asyncHandler(async (request, response) => {
   // 2. Get the payload(orderItems, shippingAddress, totalPrice)
   const { orderItems, shippingAddress, totalPrice } = request.body;
 
-  // 3. Check if order is not empty
+  // 3. Check if the user has shipping address
+  if (!user?.hasShippingAddress) {
+    throw new Error("Please provide shipping address");
+  }
+
+  // 4. Check if order is not empty
   if (orderItems?.length <= 0) {
     throw new Error("No order items");
   }
 
-  // 4. Place / create order -> `save into dataBase`
+  // 5. Place / create order -> `save into dataBase`
   const order = await Order.create({
     user: user?._id,
     orderItems,
@@ -26,7 +31,7 @@ export const createOrderCtrl = asyncHandler(async (request, response) => {
     totalPrice,
   });
 
-  // 5. Update the product quantity
+  // 6. Update the product quantity
   const products = await Product.find({ _id: { $in: orderItems } });
   orderItems?.map(async (order) => {
     const product = products?.find((product) => {
@@ -38,13 +43,13 @@ export const createOrderCtrl = asyncHandler(async (request, response) => {
     await product.save();
   });
 
-  // 6. Push order into user
+  // 7. Push order into user
   user.orders.push(order?._id);
   await user.save();
 
-  // 7. Make payment (stripe)
-  // 8. Payment webHook
-  // 9. Update the user order
+  // 8. Make payment (stripe)
+  // 9. Payment webHook
+  // 10. Update the user order
 
   response.json({
     success: true,
