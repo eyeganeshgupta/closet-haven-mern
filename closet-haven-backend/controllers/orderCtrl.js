@@ -90,7 +90,7 @@ export const createOrderCtrl = asyncHandler(async (request, response) => {
 });
 
 // @desc        Get all orders
-// @route       POST /api/v1/orders
+// @route       GET /api/v1/orders
 // @access      Private
 export const getAllOrdersCtrl = asyncHandler(async (request, response) => {
   // find/fetch all orders
@@ -99,5 +99,20 @@ export const getAllOrdersCtrl = asyncHandler(async (request, response) => {
     success: true,
     message: "All orders",
     orders,
+  });
+});
+
+// @desc        Get single order
+// @route       GET /api/v1/orders/:id
+// @access      Private/Admin
+export const getSingleOrderCtrl = asyncHandler(async (request, response) => {
+  // get id from params
+  const id = request.params.id;
+  const order = await Order.findById(id);
+  // send response
+  response.status(200).json({
+    success: true,
+    message: "Single order",
+    order,
   });
 });
