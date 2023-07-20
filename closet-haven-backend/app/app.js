@@ -24,8 +24,7 @@ const app = express();
 const stripe = new Stripe(process.env.STRIPE_KEY);
 
 // This is your Stripe CLI webhook secret for testing your endpoint locally.
-const endpointSecret =
-  "whsec_d28629f695b338b650090e4006250869c9a342ac40483b9b6e330309bcd676ea";
+const endpointSecret = process.env.STRIPE_CLI_WEBHOOK_SECRET;
 
 app.post(
   "/webhook",
@@ -43,18 +42,6 @@ app.post(
     }
 
     // Handle the event
-    /*
-    switch (event.type) {
-      case "payment_intent.succeeded":
-        const paymentIntentSucceeded = event.data.object;
-        // Then define and call a function to handle the event payment_intent.succeeded
-        break;
-      // ... handle other event types
-      default:
-        console.log(`Unhandled event type ${event.type}`);
-    }
-    */
-
     if (event.type === "checkout.session.completed") {
       // update the order
       const session = event.data.object;

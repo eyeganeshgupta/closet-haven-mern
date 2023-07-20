@@ -88,3 +88,16 @@ export const createOrderCtrl = asyncHandler(async (request, response) => {
   // 9. Payment webHook
   // 10. Update the user order
 });
+
+// @desc        Get all orders
+// @route       POST /api/v1/orders
+// @access      Private
+export const getAllOrdersCtrl = asyncHandler(async (request, response) => {
+  // find/fetch all orders
+  const orders = await Order.find();
+  response.json({
+    success: true,
+    message: "All orders",
+    orders,
+  });
+});
