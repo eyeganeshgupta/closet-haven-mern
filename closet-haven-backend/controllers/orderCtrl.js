@@ -116,3 +116,28 @@ export const getSingleOrderCtrl = asyncHandler(async (request, response) => {
     order,
   });
 });
+
+// @desc        Update order to delivered
+// @route       PUT /api/v1/orders/update/:id
+// @access      Private/Admin
+export const updateOrderCtrl = asyncHandler(async (request, response) => {
+  // get the id from params
+  const id = request.params.id;
+
+  // update
+  const updatedOrder = await Order.findByIdAndUpdate(
+    id,
+    {
+      status: request.body.status,
+    },
+    {
+      new: true,
+    }
+  );
+
+  response.status(200).json({
+    success: true,
+    message: "Order status updated!",
+    updatedOrder,
+  });
+});
