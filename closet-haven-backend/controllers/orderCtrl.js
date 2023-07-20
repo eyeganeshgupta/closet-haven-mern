@@ -1,8 +1,11 @@
 import Stripe from "stripe";
 import asyncHandler from "express-async-handler";
+import dotenv from "dotenv";
 import Order from "../model/Order.js";
 import User from "../model/User.js";
 import Product from "../model/Product.js";
+
+dotenv.config();
 
 // stripe instance
 const stripe = new Stripe(process.env.STRIPE_KEY);
