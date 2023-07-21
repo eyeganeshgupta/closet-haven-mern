@@ -64,12 +64,12 @@ export const loginUserCtrl = asyncHandler(async (request, response) => {
 // @access Private
 
 export const getUserProfileCtrl = asyncHandler(async (request, response) => {
-  // getting token from header
-  const token = getTokenFromHeader(request);
-  // verify token
-  const verified = verifyToken(token);
+  // find the user
+  const user = await User.findById(request.userAuthId).populate("orders");
   response.json({
-    msg: "Welcome to Profile Page",
+    status: "success",
+    message: "User profile fetched successfully",
+    user,
   });
 });
 
