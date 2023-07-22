@@ -11,6 +11,7 @@ import colorsRouter from "../routes/colorRoute.js";
 import reviewRouter from "../routes/reviewRoute.js";
 import orderRouter from "../routes/ordersRoute.js";
 import Order from "../model/Order.js";
+import couponsRouter from "../routes/couponsRoute.js";
 
 dotenv.config();
 
@@ -85,6 +86,7 @@ app.use("/api/v1/brands/", brandsRouter);
 app.use("/api/v1/colors/", colorsRouter);
 app.use("/api/v1/reviews/", reviewRouter);
 app.use("/api/v1/orders/", orderRouter);
+app.use("/api/v1/coupons/", couponsRouter);
 
 // error middleware
 app.use(notFound);
