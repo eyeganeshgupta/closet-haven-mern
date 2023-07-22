@@ -40,3 +40,15 @@ export const createCouponCtrl = asyncHandler(async (request, response) => {
     coupon,
   });
 });
+
+// @desc        Get all coupons
+// @route       GET /api/v1/coupons
+// @access      Private/Admin
+export const getAllCouponsCtrl = asyncHandler(async (request, response) => {
+  const coupons = await Coupon.find();
+  response.status(200).json({
+    status: "success",
+    message: "All coupons",
+    coupons,
+  });
+});
