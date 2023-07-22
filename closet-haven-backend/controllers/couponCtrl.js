@@ -52,3 +52,51 @@ export const getAllCouponsCtrl = asyncHandler(async (request, response) => {
     coupons,
   });
 });
+
+// @desc        Get single coupon
+// @route       GET /api/v1/coupons/:id
+// @access      Private/Admin
+export const getCouponCtrl = asyncHandler(async (request, response) => {
+  const coupon = await Coupon.findById(request.params.id);
+  response.json({
+    status: "success",
+    message: "Coupon fetched",
+    coupon,
+  });
+});
+
+// @desc        Update coupon
+// @route       PUT /api/v1/coupons/update/:id
+// @access      Private/Admin
+export const updateCouponCtrl = asyncHandler(async (request, response) => {
+  const { code, startDate, endDate, discount } = request.body;
+  const coupon = await Coupon.findByIdAndUpdate(
+    request.params.id,
+    {
+      code: code?.toUpperCase(),
+      startDate,
+      endDate,
+      discount,
+    },
+    {
+      new: true,
+    }
+  );
+  response.json({
+    status: "success",
+    message: "Coupon updated successfully",
+    coupon,
+  });
+});
+
+// @desc        Delete coupon
+// @route       DELETE /api/v1/coupons/delete/:id
+// @access      Private/Admin
+export const deleteCouponCtrl = asyncHandler(async (request, response) => {
+  const coupon = await Coupon.findByIdAndDelete(request.params.id);
+  response.json({
+    status: "success",
+    message: "Coupon deleted successfully",
+    coupon,
+  });
+});
