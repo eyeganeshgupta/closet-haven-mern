@@ -4,6 +4,7 @@ import Stripe from "stripe";
 import Order from "../model/Order.js";
 import User from "../model/User.js";
 import Product from "../model/Product.js";
+import Coupon from "../model/Coupon.js";
 
 dotenv.config();
 
@@ -20,6 +21,21 @@ export const createOrderCtrl = asyncHandler(async (request, response) => {
   // 2. Get the payload(orderItems, shippingAddress, totalPrice)
   const { orderItems, shippingAddress, totalPrice } = request.body;
 
+  // Get the coupon
+  const { coupon } = request?.query;
+  const couponFound = await Coupon.findOne({
+    code: coupon?.toUpperCase(),
+  });
+  if (couponFound?.isExpired) {
+    throw new Error("Coupon has expired!");
+  }
+  if (!couponFound) {
+    throw new Error("Coupon doesnt exists");
+  }
+
+  // get discount
+  const discount = couponFound?.discount / 100;
+
   // 3. Check if the user has shipping address
   if (!user?.hasShippingAddress) {
     throw new Error("Please provide shipping address");
@@ -35,8 +51,10 @@ export const createOrderCtrl = asyncHandler(async (request, response) => {
     user: user?._id,
     orderItems,
     shippingAddress,
-    totalPrice,
+    totalPrice: couponFound ? totalPrice - totalPrice * discount : totalPrice,
   });
+
+  console.log(order);
 
   // 6. Update the product quantity
   const products = await Product.find({ _id: { $in: orderItems } });
