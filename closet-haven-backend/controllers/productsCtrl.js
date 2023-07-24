@@ -8,6 +8,8 @@ import Brand from "../model/Brand.js";
 // @route       POST /api/v1/products
 // @access      Private/Admin
 export const createProductCtrl = asyncHandler(async (request, response) => {
+  const convertedImages = request.files.map((file) => file.path);
+
   const { name, description, category, sizes, colors, price, totalQty, brand } =
     request.body;
 
@@ -44,6 +46,7 @@ export const createProductCtrl = asyncHandler(async (request, response) => {
     price,
     totalQty,
     brand,
+    images: convertedImages,
   });
 
   // push the product into category
