@@ -17,6 +17,7 @@ export const createCategoryCtrl = asyncHandler(async (request, response) => {
   const category = await Category.create({
     name,
     user: request.userAuthId,
+    image: request.file.path,
   });
 
   response.json({
