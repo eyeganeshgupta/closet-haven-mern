@@ -6,7 +6,7 @@ const generateToken = (id) => {
       id,
     },
     process.env.JWT_KEY,
-    { expiresIn: "3d" }
+    { expiresIn: "90d" }
   );
 };
 
