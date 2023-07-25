@@ -2,6 +2,7 @@ import express from "express";
 import {
   createOrderCtrl,
   getAllOrdersCtrl,
+  getSalesSumCtrl,
   getSingleOrderCtrl,
   updateOrderCtrl,
 } from "../controllers/orderCtrl.js";
@@ -13,5 +14,6 @@ orderRouter.post("/", isLoggedIn, createOrderCtrl);
 orderRouter.get("/", isLoggedIn, getAllOrdersCtrl);
 orderRouter.get("/:id", isLoggedIn, getSingleOrderCtrl);
 orderRouter.put("/update/:id", isLoggedIn, updateOrderCtrl);
+orderRouter.get("/sales/sum", isLoggedIn, getSalesSumCtrl);
 
 export default orderRouter;

@@ -159,3 +159,27 @@ export const updateOrderCtrl = asyncHandler(async (request, response) => {
     updatedOrder,
   });
 });
+
+// @desc        Get Sales sum of orders
+// @route       GET /api/v1/orders/sales/sum
+// @access      Private/Admin
+export const getSalesSumCtrl = asyncHandler(async (request, response) => {
+  // get the sales
+  const sales = await Order.aggregate([
+    {
+      $group: {
+        _id: null,
+        totalSales: {
+          $sum: "$totalPrice",
+        },
+      },
+    },
+  ]);
+
+  // send response
+  response.status(200).json({
+    success: true,
+    message: "Sum of orders",
+    sales,
+  });
+});
