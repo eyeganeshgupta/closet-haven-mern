@@ -22,19 +22,22 @@ export const createOrderCtrl = asyncHandler(async (request, response) => {
   const { orderItems, shippingAddress, totalPrice } = request.body;
 
   // Get the coupon
+  let couponFound = false;
   const { coupon } = request?.query;
-  const couponFound = await Coupon.findOne({
-    code: coupon?.toUpperCase(),
-  });
-  if (couponFound?.isExpired) {
-    throw new Error("Coupon has expired!");
-  }
-  if (!couponFound) {
-    throw new Error("Coupon doesnt exists");
-  }
+  if (coupon) {
+    couponFound = await Coupon.findOne({
+      code: coupon?.toUpperCase(),
+    });
+    if (couponFound?.isExpired) {
+      throw new Error("Coupon has expired!");
+    }
+    if (!couponFound) {
+      throw new Error("Coupon doesnt exists");
+    }
 
-  // get discount
-  const discount = couponFound?.discount / 100;
+    // get discount
+    const discount = couponFound?.discount / 100;
+  }
 
   // 3. Check if the user has shipping address
   if (!user?.hasShippingAddress) {
@@ -163,14 +166,23 @@ export const updateOrderCtrl = asyncHandler(async (request, response) => {
 // @desc        Get Sales sum of orders
 // @route       GET /api/v1/orders/sales/sum
 // @access      Private/Admin
-export const getSalesSumCtrl = asyncHandler(async (request, response) => {
-  // get the sales
-  const sales = await Order.aggregate([
+export const getOrderStatsCtrl = asyncHandler(async (request, response) => {
+  // sales stats
+  const salesStats = await Order.aggregate([
     {
       $group: {
         _id: null,
-        totalSales: {
+        minimumSale: {
+          $min: "$totalPrice",
+        },
+        maximumSale: {
+          $max: "$totalPrice",
+        },
+        totalSale: {
           $sum: "$totalPrice",
+        },
+        averageSale: {
+          $avg: "$totalPrice",
         },
       },
     },
@@ -180,6 +192,6 @@ export const getSalesSumCtrl = asyncHandler(async (request, response) => {
   response.status(200).json({
     success: true,
     message: "Sum of orders",
-    sales,
+    salesStats,
   });
 });
