@@ -8,18 +8,20 @@ import {
 } from "../controllers/categoriesCtrl.js";
 import { isLoggedIn } from "../middlewares/isLoggedIn.js";
 import categoryUpload from "../config/categoryUpload.js";
+import isAdmin from "../middlewares/isAdmin.js";
 
 const categoriesRouter = express.Router();
 
 categoriesRouter.post(
   "/",
   isLoggedIn,
+  isAdmin,
   categoryUpload.single("file"),
   createCategoryCtrl
 );
 categoriesRouter.get("/", getAllCategoriesCtrl);
 categoriesRouter.get("/:id", getSingleCategoryCtrl);
-categoriesRouter.put("/:id", updateCategoryCtrl);
-categoriesRouter.delete("/:id", deleteCategoryCtrl);
+categoriesRouter.put("/:id", isLoggedIn, isAdmin, updateCategoryCtrl);
+categoriesRouter.delete("/:id", isLoggedIn, isAdmin, deleteCategoryCtrl);
 
 export default categoriesRouter;
