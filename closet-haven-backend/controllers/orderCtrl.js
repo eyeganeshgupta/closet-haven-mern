@@ -167,7 +167,7 @@ export const updateOrderCtrl = asyncHandler(async (request, response) => {
 // @route       GET /api/v1/orders/sales/sum
 // @access      Private/Admin
 export const getOrderStatsCtrl = asyncHandler(async (request, response) => {
-  // sales stats
+  // sales/order stats
   const salesStats = await Order.aggregate([
     {
       $group: {
@@ -188,10 +188,34 @@ export const getOrderStatsCtrl = asyncHandler(async (request, response) => {
     },
   ]);
 
+  // get the date
+  const date = new Date();
+  const today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  console.log(today.toLocaleDateString());
+
+  const todaySales = await Order.aggregate([
+    {
+      $match: {
+        createdAt: {
+          $gte: today,
+        },
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        totalSales: {
+          $sum: "$totalPrice",
+        },
+      },
+    },
+  ]);
+
   // send response
   response.status(200).json({
     success: true,
     message: "Sum of orders",
     salesStats,
+    todaySales,
   });
 });
